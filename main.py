@@ -1,8 +1,8 @@
 import pygame
 import random
 
-screen_width = 256
-screen_height = 240
+screen_width = 512
+screen_height = 480
 
 pygame.init()
 screen = pygame.display.set_mode((screen_width,screen_height))
@@ -30,15 +30,16 @@ game_size_x = 16
 game_size_y = 13
 
 # The total size of the screen
-screen_tile_size_x = int(game_size_x)
-screen_tile_size_y = int(game_size_y + 2)
+screen_size_x = int(game_size_x)
+screen_size_y = int(game_size_y + 2)
 
-# The scale x and y components for the tiles to properly fit them onto the screen
-screen_scale_x = (screen_width/screen_tile_size_x)/tile_size_x
-screen_scale_y = (screen_height/screen_tile_size_y)/tile_size_y
+# The size of a tile when accounting for the screen size
+screen_tile_size_x = screen_width/screen_size_x
+screen_tile_size_y = screen_height/screen_size_y
 
-screen_tile_size_x = screen_width/screen_tile_size_x
-screen_tile_size_y = screen_height/screen_tile_size_y
+# The scale x and y components for the tiles to properly fit a tile onto the screen
+screen_scale_x = (screen_width/screen_size_x)/tile_size_x
+screen_scale_y = (screen_height/screen_size_y)/tile_size_y
 
 while True:
 	clock.tick(60)
