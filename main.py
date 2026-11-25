@@ -21,9 +21,16 @@ def get_image(sheet, frame_x, frame_y, width, height, scale_x, scale_y, color):
 	return image
 
 while True:
-    
-    pass
 
-    pygame.display.flip()
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			pygame.quit()
 
-    clock.tick(60)
+	for tile_y in range(13):
+		for tile_x in range(16):
+			tile = get_image(block_sheet, 0,0,16,16,1,1,(255,255,255))
+			screen.blit(tile, (tile_x*16,tile_y*16))
+
+	pygame.display.flip()
+
+clock.tick(60)
