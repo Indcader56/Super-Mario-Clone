@@ -63,7 +63,7 @@ left_click = False
 
 
 # Grabs all the images from the spritesheet beforehand
-image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(10)]
+image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)).convert_alpha() for i in range(11)]
 
 selected_tile = 0
 
@@ -116,13 +116,12 @@ while True:
 
 	if player_y < 0:
 		player_y = 0
-	if player_y > screen_height:
-		player_y = screen_height
 
-	if selected_tile > 9:
+
+	if selected_tile > 8:
 		selected_tile = 0
 	if selected_tile < 0:
-		selected_tile = 9
+		selected_tile = 8
 
 	player_screen_x = math.floor((player_x*tile_scale_x)/(scaled_tile_size_x*game_size_x))
 
@@ -144,5 +143,10 @@ while True:
 				screen.blit(tile, (((tile_x*scaled_tile_size_x)-(player_x*tile_scale_x))+(player_screen_x*(scaled_tile_size_x*game_size_x))+(scaled_tile_size_x*game_size_x),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
 	screen.blit(image_list[9],((screen_width//2)-scaled_tile_size_x,(screen_height-player_y)-scaled_tile_size_y))
+
+	# Mouse placement thing
+	screen.blit(image_list[selected_tile],(round((mouse_x-(scaled_tile_size_x/2))/scaled_tile_size_x)*scaled_tile_size_x,round((mouse_y-(scaled_tile_size_y/2))/scaled_tile_size_y)*scaled_tile_size_y))
+	screen.blit(image_list[10],(round((mouse_x-(scaled_tile_size_x/2))/scaled_tile_size_x)*scaled_tile_size_x,round((mouse_y-(scaled_tile_size_y/2))/scaled_tile_size_y)*scaled_tile_size_y))
+
 
 	pygame.display.flip()
