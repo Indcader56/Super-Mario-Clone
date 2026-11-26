@@ -26,13 +26,13 @@ def get_image(sheet, frame_x, frame_y, width, height, scale_x, scale_y, color):
 tile_size_x = 16
 tile_size_y = 16
 
-# The size of the actual game world (not including the ui)
-game_tile_size_x = 16
-game_tile_size_y = 13
+# The size of the actual game world (not including the ui and in tiles)
+game_size_x = 16
+game_size_y = 13
 
 # The total size of the screen (in tiles)
-screen_size_x = int(game_tile_size_x)
-screen_size_y = int(game_tile_size_y + 2)
+screen_size_x = int(game_size_x)
+screen_size_y = int(game_size_y + 2)
 
 # The size of a tile when accounting for the screen size
 scaled_tile_size_x = screen_width/screen_size_x
@@ -42,6 +42,8 @@ scaled_tile_size_y = screen_height/screen_size_y
 # The scale x and y components for the tiles to properly fit a tile onto the screen
 tile_scale_x = scaled_tile_size_x/tile_size_x
 tile_scale_y = scaled_tile_size_y/tile_size_y
+
+level_data = [[random.randint(0,2) for x in range(game_size_x)] for y in range(game_size_y)]
 
 while True:
 	clock.tick(60)
@@ -55,7 +57,9 @@ while True:
 	# Game world
 	for tile_y in range(13):
 		for tile_x in range(16):
-			tile = get_image(block_sheet, 2,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255))
-			screen.blit(tile, (tile_x*scaled_tile_size_x,(tile_y*scaled_tile_size_y)+((screen_size_y-game_tile_size_y)*scaled_tile_size_y)))
+
+			tile = get_image(block_sheet, level_data[tile_y][tile_x],0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255))
+			screen.blit(tile, (tile_x*scaled_tile_size_x,(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
+
 
 	pygame.display.flip()
