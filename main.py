@@ -51,11 +51,11 @@ level_data = [[0 if y < 11 else 2 for x in range(level_size_x)] for y in range(l
 
 # Player data and key data
 player_x = 0
-player_y = 0
+player_y = screen_height/2
 
 player_vel_y = 0
 
-player_acc_y = -10
+player_acc_y = -1
 
 d_pressed = False
 a_pressed = False
@@ -82,7 +82,7 @@ while True:
 				d_pressed = True
 			if event.key == pygame.K_a:
 				a_pressed = True
-			if event.key == pygame.K_SPACE:
+			if event.key == pygame.K_e:
 				selected_tile += 1
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_d:
