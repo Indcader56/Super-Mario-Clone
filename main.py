@@ -59,7 +59,7 @@ left_click = False
 
 
 # Grabs all the images from the spritesheet beforehand
-image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(4)]
+image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(6)]
 
 selected_tile = 0
 
@@ -103,10 +103,10 @@ while True:
 	if player_x > level_size_x*scaled_tile_size_x:
 		player_x = level_size_x*scaled_tile_size_x
 
-	if selected_tile > 3:
+	if selected_tile > 5:
 		selected_tile = 0
 	if selected_tile < 0:
-		selected_tile = 3
+		selected_tile = 5
 
 	player_screen_x = math.floor(player_x/(scaled_tile_size_x*game_size_x))
 
