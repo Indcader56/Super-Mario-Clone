@@ -82,8 +82,7 @@ while True:
 			if event.key == pygame.K_a:
 				a_pressed = False
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			pass
-			#level_data[]
+			level_data[round(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][round((mouse_x+player_x)//scaled_tile_size_x)] = 3
 
 
 	if d_pressed:
@@ -93,8 +92,8 @@ while True:
 
 	if player_x < 0:
 		player_x = 0
-	if player_x > level_size_x*tile_scale_x:
-		player_x = level_size_x*tile_scale_x
+	if player_x > level_size_x*scaled_tile_size_x:
+		player_x = level_size_x*scaled_tile_size_x
 
 	player_screen_x = math.floor(player_x/(scaled_tile_size_x*game_size_x))
 
