@@ -63,7 +63,7 @@ left_click = False
 
 
 # Grabs all the images from the spritesheet beforehand
-image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)).convert_alpha() for i in range(11)]
+image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,None).convert_alpha() for i in range(11)]
 
 selected_tile = 0
 
