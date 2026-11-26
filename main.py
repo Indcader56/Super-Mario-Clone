@@ -55,7 +55,8 @@ player_y = screen_height/2
 
 player_vel_y = 0
 
-player_acc_y = -1
+# Around 8 tiles
+player_acc_y = -160
 
 d_pressed = False
 a_pressed = False
@@ -84,6 +85,8 @@ while True:
 				a_pressed = True
 			if event.key == pygame.K_e:
 				selected_tile += 1
+			if event.key == pygame.K_SPACE:
+				player_vel_y += 200
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_d:
 				d_pressed = False
@@ -114,9 +117,11 @@ while True:
 	if player_x > (level_size_x*tile_size_x)-(game_size_x*tile_size_x):
 		player_x = (level_size_x*tile_size_x)-(game_size_x*tile_size_x)
 
-	if player_y < 0:
-		player_y = 0
+	if player_y < 32*tile_scale_y:
+		player_y = 32*tile_scale_y
+		player_vel_y = 0
 
+	print(player_vel_y)
 
 	if selected_tile > 8:
 		selected_tile = 0
@@ -125,9 +130,9 @@ while True:
 
 	player_screen_x = math.floor((player_x*tile_scale_x)/(scaled_tile_size_x*game_size_x))
 
-	screen.fill((0,100,255))
+	# Rendering
 
-	# Game world
+	screen.fill((0,100,255))
 
 	# Screen A
 	for tile_y in range(13):
