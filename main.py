@@ -53,13 +53,17 @@ level_data = [[0 if y < 11 else 2 for x in range(level_size_x)] for y in range(l
 player_x = 0
 player_y = 0
 
+player_vel_y = 0
+
+player_acc_y = -10
+
 d_pressed = False
 a_pressed = False
 left_click = False
 
 
 # Grabs all the images from the spritesheet beforehand
-image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(6)]
+image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(10)]
 
 selected_tile = 0
 
@@ -90,6 +94,11 @@ while True:
 		if event.type == pygame.MOUSEBUTTONUP:
 			left_click = False
 
+	# Player physics along the y axis
+	player_vel_y += player_acc_y
+
+	player_y += player_vel_y
+
 	if d_pressed:
 		player_x += 4
 	if a_pressed:
@@ -105,10 +114,15 @@ while True:
 	if player_x > (level_size_x*tile_size_x)-(game_size_x*tile_size_x):
 		player_x = (level_size_x*tile_size_x)-(game_size_x*tile_size_x)
 
-	if selected_tile > 5:
+	if player_y < 0:
+		player_y = 0
+	if player_y > screen_height:
+		player_y = screen_height
+
+	if selected_tile > 9:
 		selected_tile = 0
 	if selected_tile < 0:
-		selected_tile = 5
+		selected_tile = 9
 
 	player_screen_x = math.floor((player_x*tile_scale_x)/(scaled_tile_size_x*game_size_x))
 
@@ -129,6 +143,6 @@ while True:
 				tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)+game_size_x]]
 				screen.blit(tile, (((tile_x*scaled_tile_size_x)-(player_x*tile_scale_x))+(player_screen_x*(scaled_tile_size_x*game_size_x))+(scaled_tile_size_x*game_size_x),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
-	#screen.blit(image_list[3],(0,player_y))
+	screen.blit(image_list[9],((screen_width//2)-scaled_tile_size_x,(screen_height-player_y)-scaled_tile_size_y))
 
 	pygame.display.flip()
