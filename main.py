@@ -111,8 +111,6 @@ while True:
 		selected_tile = 5
 
 	player_screen_x = math.floor((player_x*tile_scale_x)/(scaled_tile_size_x*game_size_x))
-	print(player_x, player_screen_x)
-
 
 	screen.fill((0,100,255))
 
