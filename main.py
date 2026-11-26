@@ -21,7 +21,6 @@ def get_image(sheet, frame_x, frame_y, width, height, scale_x, scale_y, color):
 
 	return image
 
-
 # The size of one individual tile
 tile_size_x = 16
 tile_size_y = 16
@@ -43,17 +42,23 @@ scaled_tile_size_y = screen_height/screen_size_y
 tile_scale_x = scaled_tile_size_x/tile_size_x
 tile_scale_y = scaled_tile_size_y/tile_size_y
 
-
+# Level data
 level_size_x = 256
 level_size_y = int(game_size_y)
 
 level_data = [[random.randint(0,2) for x in range(level_size_x)] for y in range(level_size_y)]
 
+# Player data and key data
 player_x = 0
 player_y = 0
 
 d_pressed = False
 a_pressed = False
+
+
+# Grabs all the images from the spritesheet beforehand
+image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(3)]
+
 
 while True:
 	clock.tick(60)
@@ -82,11 +87,10 @@ while True:
 	screen.fill((0,100,255))
 
 	# Game world
-	
+
 	for tile_y in range(13):
 		for tile_x in range(16):
-			tile = get_image(block_sheet, level_data[tile_y][tile_x],0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255))
+			tile = image_list[level_data[tile_y][tile_x]]
 			screen.blit(tile, ((tile_x*scaled_tile_size_x)-player_x,(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
-
 
 	pygame.display.flip()
