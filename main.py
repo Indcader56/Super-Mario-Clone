@@ -1,8 +1,9 @@
 import pygame
 import random
 
-screen_width = 512
-screen_height = 480
+# Original size is 256x240 new is 768x720
+screen_width = 768
+screen_height = 720
 
 pygame.init()
 screen = pygame.display.set_mode((screen_width,screen_height))
@@ -26,20 +27,21 @@ tile_size_x = 16
 tile_size_y = 16
 
 # The size of the actual game world (not including the ui)
-game_size_x = 16
-game_size_y = 13
+game_tile_size_x = 16
+game_tile_size_y = 13
 
-# The total size of the screen
-screen_size_x = int(game_size_x)
-screen_size_y = int(game_size_y + 2)
+# The total size of the screen (in tiles)
+screen_size_x = int(game_tile_size_x)
+screen_size_y = int(game_tile_size_y + 2)
 
 # The size of a tile when accounting for the screen size
-screen_tile_size_x = screen_width/screen_size_x
-screen_tile_size_y = screen_height/screen_size_y
+scaled_tile_size_x = screen_width/screen_size_x
+scaled_tile_size_y = screen_height/screen_size_y
+
 
 # The scale x and y components for the tiles to properly fit a tile onto the screen
-screen_scale_x = (screen_width/screen_size_x)/tile_size_x
-screen_scale_y = (screen_height/screen_size_y)/tile_size_y
+tile_scale_x = scaled_tile_size_x/tile_size_x
+tile_scale_y = scaled_tile_size_y/tile_size_y
 
 while True:
 	clock.tick(60)
@@ -48,11 +50,12 @@ while True:
 		if event.type == pygame.QUIT:
 			pygame.quit()
 
+	screen.fill((0,100,255))
 
 	# Game world
 	for tile_y in range(13):
 		for tile_x in range(16):
-			tile = get_image(block_sheet, 0,0,tile_size_x,tile_size_y,screen_scale_x,screen_scale_y,(255,255,255))
-			screen.blit(tile, (tile_x*screen_tile_size_x,tile_y*screen_tile_size_y))
+			tile = get_image(block_sheet, 2,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255))
+			screen.blit(tile, (tile_x*scaled_tile_size_x,(tile_y*scaled_tile_size_y)+((screen_size_y-game_tile_size_y)*scaled_tile_size_y)))
 
 	pygame.display.flip()
