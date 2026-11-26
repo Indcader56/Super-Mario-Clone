@@ -100,9 +100,9 @@ while True:
 	player_y += player_vel_y
 
 	if d_pressed:
-		player_x += 4
+		player_x += 1
 	if a_pressed:
-		player_x -= 4
+		player_x -= 1
 	if left_click:
 		try:
 			level_data[math.floor(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][math.floor((mouse_x+(player_x*tile_scale_x))//scaled_tile_size_x)] = selected_tile
@@ -145,8 +145,8 @@ while True:
 	screen.blit(image_list[9],((screen_width//2)-scaled_tile_size_x,(screen_height-player_y)-scaled_tile_size_y))
 
 	# Mouse placement thing
-	screen.blit(image_list[selected_tile],(round((mouse_x-(scaled_tile_size_x/2))/scaled_tile_size_x)*scaled_tile_size_x,round((mouse_y-(scaled_tile_size_y/2))/scaled_tile_size_y)*scaled_tile_size_y))
-	screen.blit(image_list[10],(round((mouse_x-(scaled_tile_size_x/2))/scaled_tile_size_x)*scaled_tile_size_x,round((mouse_y-(scaled_tile_size_y/2))/scaled_tile_size_y)*scaled_tile_size_y))
+	screen.blit(image_list[selected_tile],((round((mouse_x-(scaled_tile_size_x/2))/scaled_tile_size_x)*scaled_tile_size_x)-((player_x-(round(player_x/tile_size_x)*tile_size_x))*tile_scale_x),round((mouse_y-(scaled_tile_size_y/2))/scaled_tile_size_y)*scaled_tile_size_y))
+	screen.blit(image_list[10],((round((mouse_x-(scaled_tile_size_x/2))/scaled_tile_size_x)*scaled_tile_size_x)-((player_x-(round(player_x/tile_size_x)*tile_size_x))*tile_scale_x),round((mouse_y-(scaled_tile_size_y/2))/scaled_tile_size_y)*scaled_tile_size_y))
 
 
 	pygame.display.flip()
