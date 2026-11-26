@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 # Original size is 256x240 new is 768x720
 screen_width = 768
@@ -57,7 +58,7 @@ a_pressed = False
 
 
 # Grabs all the images from the spritesheet beforehand
-image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(3)]
+image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(4)]
 
 
 while True:
@@ -85,12 +86,14 @@ while True:
 
 
 	screen.fill((0,100,255))
-
+	print(math.floor(player_x/(scaled_tile_size_x*game_size_x)))
 	# Game world
 
 	for tile_y in range(13):
 		for tile_x in range(16):
 			tile = image_list[level_data[tile_y][tile_x]]
-			screen.blit(tile, ((tile_x*scaled_tile_size_x)-player_x,(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
+			screen.blit(tile, (((tile_x*scaled_tile_size_x)-player_x)+,(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
+
+	#screen.blit(image_list[3],(0,player_y))
 
 	pygame.display.flip()
