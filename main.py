@@ -95,7 +95,7 @@ while True:
 	if a_pressed:
 		player_x -= 4
 	if left_click:
-		level_data[round(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][round((mouse_x+player_x)//scaled_tile_size_x)] = selected_tile
+		level_data[math.floor(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][math.floor((mouse_x+player_x)//scaled_tile_size_x)] = selected_tile
 
 
 	if player_x < 0:
