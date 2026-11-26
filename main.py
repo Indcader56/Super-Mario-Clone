@@ -44,10 +44,16 @@ tile_scale_x = scaled_tile_size_x/tile_size_x
 tile_scale_y = scaled_tile_size_y/tile_size_y
 
 
-level_size_x = 12
+level_size_x = 256
 level_size_y = int(game_size_y)
 
-level_data = [[random.randint(0,3) for x in range(level_size_x)] for y in range(level_size_y)]
+level_data = [[random.randint(0,2) for x in range(level_size_x)] for y in range(level_size_y)]
+
+player_x = 0
+player_y = 0
+
+d_pressed = False
+a_pressed = False
 
 while True:
 	clock.tick(60)
@@ -55,15 +61,32 @@ while True:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			pygame.quit()
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_d:
+				d_pressed = True
+			if event.key == pygame.K_a:
+				a_pressed = True
+		if event.type == pygame.KEYUP:
+			if event.key == pygame.K_d:
+				d_pressed = False
+			if event.key == pygame.K_a:
+				a_pressed = False
+
+
+	if d_pressed:
+		player_x += 1
+	if a_pressed:
+		player_x -= 1
+
 
 	screen.fill((0,100,255))
 
 	# Game world
+	
 	for tile_y in range(13):
 		for tile_x in range(16):
-
 			tile = get_image(block_sheet, level_data[tile_y][tile_x],0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255))
-			screen.blit(tile, (tile_x*scaled_tile_size_x,(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
+			screen.blit(tile, ((tile_x*scaled_tile_size_x)-player_x,(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
 
 	pygame.display.flip()
