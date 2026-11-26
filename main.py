@@ -47,7 +47,7 @@ tile_scale_y = scaled_tile_size_y/tile_size_y
 level_size_x = 256
 level_size_y = int(game_size_y)
 
-level_data = [[0 for x in range(level_size_x)] for y in range(level_size_y)]
+level_data = [[0 if y < 11 else 2 for x in range(level_size_x)] for y in range(level_size_y)]
 
 # Player data and key data
 player_x = 0
@@ -95,20 +95,23 @@ while True:
 	if a_pressed:
 		player_x -= 4
 	if left_click:
-		level_data[math.floor(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][math.floor((mouse_x+player_x)//scaled_tile_size_x)] = selected_tile
-
+		try:
+			level_data[math.floor(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][math.floor((mouse_x+(player_x*tile_scale_x))//scaled_tile_size_x)] = selected_tile
+		except IndexError:
+			print("oops! Better fix that...")
 
 	if player_x < 0:
 		player_x = 0
-	if player_x > level_size_x*scaled_tile_size_x:
-		player_x = level_size_x*scaled_tile_size_x
+	if player_x > (level_size_x*tile_size_x)-(game_size_x*tile_size_x):
+		player_x = (level_size_x*tile_size_x)-(game_size_x*tile_size_x)
 
 	if selected_tile > 5:
 		selected_tile = 0
 	if selected_tile < 0:
 		selected_tile = 5
 
-	player_screen_x = math.floor(player_x/(scaled_tile_size_x*game_size_x))
+	player_screen_x = math.floor((player_x*tile_scale_x)/(scaled_tile_size_x*game_size_x))
+	print(player_x, player_screen_x)
 
 
 	screen.fill((0,100,255))
@@ -119,13 +122,14 @@ while True:
 	for tile_y in range(13):
 		for tile_x in range(16):
 			tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)]]
-			screen.blit(tile, (((tile_x*scaled_tile_size_x)-player_x)+(player_screen_x*(scaled_tile_size_x*game_size_x)),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
+			screen.blit(tile, (((tile_x*scaled_tile_size_x)-(player_x*tile_scale_x))+(player_screen_x*(scaled_tile_size_x*game_size_x)),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
 	# Screen B (offsetted one screen length to the right)
-	for tile_y in range(13):
-		for tile_x in range(16):
-			tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)+game_size_x]]
-			screen.blit(tile, (((tile_x*scaled_tile_size_x)-player_x)+(player_screen_x*(scaled_tile_size_x*game_size_x))+(scaled_tile_size_x*game_size_x),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
+	if not player_screen_x == (level_size_x/game_size_x)-1:
+		for tile_y in range(13):
+			for tile_x in range(16):
+				tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)+game_size_x]]
+				screen.blit(tile, (((tile_x*scaled_tile_size_x)-(player_x*tile_scale_x))+(player_screen_x*(scaled_tile_size_x*game_size_x))+(scaled_tile_size_x*game_size_x),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
 	#screen.blit(image_list[3],(0,player_y))
 
