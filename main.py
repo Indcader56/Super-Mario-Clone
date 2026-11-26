@@ -72,7 +72,7 @@ while True:
 	mouse_x = pygame.mouse.get_pos()[0]
 	mouse_y = pygame.mouse.get_pos()[1]
 
-	clock.tick(60)
+	dt = clock.tick(60)/1000
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -95,9 +95,9 @@ while True:
 			left_click = False
 
 	# Player physics along the y axis
-	player_vel_y += player_acc_y
+	player_vel_y += player_acc_y * dt
 
-	player_y += player_vel_y
+	player_y += player_vel_y * dt
 
 	if d_pressed:
 		player_x += 1
