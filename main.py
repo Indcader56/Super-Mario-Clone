@@ -43,7 +43,11 @@ scaled_tile_size_y = screen_height/screen_size_y
 tile_scale_x = scaled_tile_size_x/tile_size_x
 tile_scale_y = scaled_tile_size_y/tile_size_y
 
-level_data = [[random.randint(0,2) for x in range(game_size_x)] for y in range(game_size_y)]
+
+level_size_x = 12
+level_size_y = int(game_size_y)
+
+level_data = [[random.randint(0,3) for x in range(level_size_x)] for y in range(level_size_y)]
 
 while True:
 	clock.tick(60)
