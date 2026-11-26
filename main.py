@@ -62,6 +62,10 @@ image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,ti
 
 
 while True:
+	# Grabs the mouse x and y
+	mouse_x = pygame.mouse.get_pos()[0]
+	mouse_y = pygame.mouse.get_pos()[1]
+
 	clock.tick(60)
 
 	for event in pygame.event.get():
@@ -77,6 +81,9 @@ while True:
 				d_pressed = False
 			if event.key == pygame.K_a:
 				a_pressed = False
+		if event.type == pygame.MOUSEBUTTONDOWN:
+			pass
+			#level_data[]
 
 
 	if d_pressed:
@@ -102,7 +109,7 @@ while True:
 			tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)]]
 			screen.blit(tile, (((tile_x*scaled_tile_size_x)-player_x)+(player_screen_x*(scaled_tile_size_x*game_size_x)),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
-	# Screen B
+	# Screen B (offsetted one screen length to the right)
 	for tile_y in range(13):
 		for tile_x in range(16):
 			tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)+game_size_x]]
