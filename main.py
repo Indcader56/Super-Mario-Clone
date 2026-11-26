@@ -60,6 +60,7 @@ a_pressed = False
 # Grabs all the images from the spritesheet beforehand
 image_list = [get_image(block_sheet, i,0,tile_size_x,tile_size_y,tile_scale_x,tile_scale_y,(255,255,255)) for i in range(4)]
 
+selected_tile = 0
 
 while True:
 	# Grabs the mouse x and y
@@ -76,13 +77,15 @@ while True:
 				d_pressed = True
 			if event.key == pygame.K_a:
 				a_pressed = True
+			if event.key == pygame.K_SPACE:
+				selected_tile += 1
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_d:
 				d_pressed = False
 			if event.key == pygame.K_a:
 				a_pressed = False
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			level_data[round(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][round((mouse_x+player_x)//scaled_tile_size_x)] = 3
+			level_data[round(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][round((mouse_x+player_x)//scaled_tile_size_x)] = selected_tile
 
 
 	if d_pressed:
@@ -94,6 +97,11 @@ while True:
 		player_x = 0
 	if player_x > level_size_x*scaled_tile_size_x:
 		player_x = level_size_x*scaled_tile_size_x
+
+	if selected_tile > 3:
+		selected_tile = 0
+	if selected_tile < 0:
+		selected_tile = 3
 
 	player_screen_x = math.floor(player_x/(scaled_tile_size_x*game_size_x))
 
