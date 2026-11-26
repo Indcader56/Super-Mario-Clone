@@ -47,7 +47,7 @@ tile_scale_y = scaled_tile_size_y/tile_size_y
 level_size_x = 256
 level_size_y = int(game_size_y)
 
-level_data = [[random.randint(0,2) for x in range(level_size_x)] for y in range(level_size_y)]
+level_data = [[0 for x in range(level_size_x)] for y in range(level_size_y)]
 
 # Player data and key data
 player_x = 0
@@ -55,6 +55,7 @@ player_y = 0
 
 d_pressed = False
 a_pressed = False
+left_click = False
 
 
 # Grabs all the images from the spritesheet beforehand
@@ -85,13 +86,17 @@ while True:
 			if event.key == pygame.K_a:
 				a_pressed = False
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			level_data[round(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][round((mouse_x+player_x)//scaled_tile_size_x)] = selected_tile
-
+			left_click = True
+		if event.type == pygame.MOUSEBUTTONUP:
+			left_click = False
 
 	if d_pressed:
 		player_x += 4
 	if a_pressed:
 		player_x -= 4
+	if left_click:
+		level_data[round(mouse_y/scaled_tile_size_y)-(screen_size_y-game_size_y)][round((mouse_x+player_x)//scaled_tile_size_x)] = selected_tile
+
 
 	if player_x < 0:
 		player_x = 0
