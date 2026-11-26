@@ -80,19 +80,21 @@ while True:
 
 
 	if d_pressed:
-		player_x += 1
+		player_x += 4
 	if a_pressed:
-		player_x -= 1
+		player_x -= 4
+
+	player_screen_x = math.floor(player_x/(scaled_tile_size_x*game_size_x))
 
 
 	screen.fill((0,100,255))
-	print(math.floor(player_x/(scaled_tile_size_x*game_size_x)))
+
 	# Game world
 
 	for tile_y in range(13):
 		for tile_x in range(16):
 			tile = image_list[level_data[tile_y][tile_x]]
-			screen.blit(tile, (((tile_x*scaled_tile_size_x)-player_x)+,(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
+			screen.blit(tile, (((tile_x*scaled_tile_size_x)-player_x)+(player_screen_x*(scaled_tile_size_x*game_size_x)),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
 	#screen.blit(image_list[3],(0,player_y))
 
