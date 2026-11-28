@@ -51,12 +51,12 @@ level_data = [[0 if y < 11 else 2 for x in range(level_size_x)] for y in range(l
 
 # Player data and key data
 player_x = 0
-player_y = screen_height/2
+player_y = int(screen_height)-(scaled_tile_size_y*2)
 
 player_vel_y = 0
 
-# Around 8 tiles
-player_acc_y = -160
+# Around 25 tiles
+player_acc_y = -400
 
 d_pressed = False
 a_pressed = False
@@ -72,6 +72,9 @@ while True:
 	# Grabs the mouse x and y
 	mouse_x = pygame.mouse.get_pos()[0]
 	mouse_y = pygame.mouse.get_pos()[1]
+
+	past_player_x = float(player_x)
+	past_player_y = float(player_y)
 
 	dt = clock.tick(60)/1000
 
@@ -96,11 +99,12 @@ while True:
 			left_click = True
 		if event.type == pygame.MOUSEBUTTONUP:
 			left_click = False
-
+	
 	# Player physics along the y axis
 	player_vel_y += player_acc_y * dt
 
 	player_y += player_vel_y * dt
+	
 
 	if d_pressed:
 		player_x += 1
@@ -117,11 +121,31 @@ while True:
 	if player_x > (level_size_x*tile_size_x)-(game_size_x*tile_size_x):
 		player_x = (level_size_x*tile_size_x)-(game_size_x*tile_size_x)
 
-	if player_y < 32*tile_scale_y:
-		player_y = 32*tile_scale_y
-		player_vel_y = 0
+	
+	
 
-	print(player_vel_y)
+	player_index_x = math.floor(player_x/tile_size_x)+8
+	player_index_y = math.floor(((screen_height-player_y)/scaled_tile_size_y)-2)
+	print(player_index_x, player_index_y)
+
+	if not player_y < 16*tile_scale_y:
+		# y-axis collision
+		if level_data[player_index_y+1][player_index_x] != 0:
+			player_y = past_player_y
+			player_vel_y = 0
+		if level_data[player_index_y-1][player_index_x] != 0 and player_index_y != 0:
+			player_y = past_player_y
+			player_vel_y = 0
+
+		if level_data[player_index_y][player_index_x+1] != 0:
+			player_x = past_player_x
+			player_vel_x = 0
+		if level_data[player_index_y][player_index_x-1] != 0:
+			player_x = past_player_x
+			player_vel_x = 0
+		#print(player_index_y,player_index_x)
+
+
 
 	if selected_tile > 8:
 		selected_tile = 0
@@ -137,6 +161,7 @@ while True:
 	# Screen A
 	for tile_y in range(13):
 		for tile_x in range(16):
+
 			tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)]]
 			screen.blit(tile, (((tile_x*scaled_tile_size_x)-(player_x*tile_scale_x))+(player_screen_x*(scaled_tile_size_x*game_size_x)),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
@@ -147,7 +172,7 @@ while True:
 				tile = image_list[level_data[tile_y][tile_x+(game_size_x*player_screen_x)+game_size_x]]
 				screen.blit(tile, (((tile_x*scaled_tile_size_x)-(player_x*tile_scale_x))+(player_screen_x*(scaled_tile_size_x*game_size_x))+(scaled_tile_size_x*game_size_x),(tile_y*scaled_tile_size_y)+((screen_size_y-game_size_y)*scaled_tile_size_y)))
 
-	screen.blit(image_list[9],((screen_width//2)-scaled_tile_size_x,(screen_height-player_y)-scaled_tile_size_y))
+	screen.blit(image_list[9],(screen_width//2,(screen_height-player_y)))
 
 	# Mouse placement thing
 	screen.blit(image_list[selected_tile],((round((mouse_x-(scaled_tile_size_x/2))/scaled_tile_size_x)*scaled_tile_size_x)-((player_x-(round(player_x/tile_size_x)*tile_size_x))*tile_scale_x),round((mouse_y-(scaled_tile_size_y/2))/scaled_tile_size_y)*scaled_tile_size_y))
